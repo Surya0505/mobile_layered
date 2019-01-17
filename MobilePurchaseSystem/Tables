@@ -1,0 +1,3 @@
+CREATE TABLE mobiles (mobile_id NUMBER PRIMARY KEY, name VARCHAR2 (20), price NUMBER(10,2),quantity VARCHAR2(20));
+
+CREATE TABLE purchasedetails(purchaseid NUMBER, cname VARCHAR2(20), mailid VARCHAR2(30),phoneno VARCHAR2(20), purchasedate DATE, mobile_id references mobiles(mobile_id));
