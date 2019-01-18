@@ -18,6 +18,15 @@ public class MpsDaoImpl implements MpsDao {
 
 	ResultSet resultSet = null;
 	PreparedStatement statement = null;
+	
+	/**
+	 * method      :  insertMobileDetails 
+	 * argument    :  it's taking mobile object as an argument
+	 * return type :  this method returns the number of rows inserted 
+	 * Author      :  Capgemini 
+	 * Date        :  18-Jan-2019
+	 * 
+	 */
 
 	@Override
 	public int insertMobileDetails(Mobiles mobiles) throws MPSException {
@@ -48,10 +57,20 @@ public class MpsDaoImpl implements MpsDao {
 		}
 		return result;
 	}
+	
+	/**
+	 * method      :  updateMobileQuantity 
+	 * argument    :  it's taking details object as an argument
+	 * return type :  this method returns the number of rows inserted 
+	 * Author      :  Capgemini 
+	 * Date        :  18-Jan-2019
+	 * 
+	 */
 
 	@Override
 	public int updateMobileQuantity(PurchaseDetails details) throws MPSException {
 		connection = JDBCUtility.getConnection();
+		int update = 0;
 		boolean result = false;
 		try {
 			statement = connection.prepareStatement(QueryMapper.checkMobileId);
@@ -65,17 +84,16 @@ public class MpsDaoImpl implements MpsDao {
 					if(quantity>0)
 					{
 					statement = connection.prepareStatement(QueryMapper.updateQuantity);
-					statement.setInt(2, id2);
 					statement.setInt(1, quantity - 1);
+					statement.setInt(2, id2);
 					statement.executeUpdate();
-					System.out.println("Updated");
 
 					statement = connection.prepareStatement(QueryMapper.insertPurchaseDetails);
 					statement.setString(1, details.getcName());
 					statement.setString(2, details.getMailId());
 					statement.setLong(3, details.getPhoneNumber());
 					statement.setInt(4, details.getMobileID());
-					statement.executeUpdate();
+					update=statement.executeUpdate();
 
 					result = true;
 					break;
@@ -103,18 +121,28 @@ public class MpsDaoImpl implements MpsDao {
 				throw new MPSException("connection not closed");
 			}
 		}
-		return 0;
+		return update;
 	}
+	
+	/**
+	 * method      :  selectAllMobiles 
+	 * argument    :  it's taking nothing as an argument
+	 * return type :  this method returns the all rows in the table 
+	 * Author      :  Capgemini 
+	 * Date        :  18-Jan-2019
+	 */
 
 	@Override
 	public List<Mobiles> selectAllMobiles() throws MPSException {
 		connection = JDBCUtility.getConnection();
 		List<Mobiles> list = new ArrayList<>();
+		
 		try {
+
 			statement = connection.prepareStatement(QueryMapper.selectAllMobiles);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				int id = resultSet.getInt("mobileId");
+				int id = resultSet.getInt("mobile_id");
 				String name = resultSet.getString("name");
 				Double price = resultSet.getDouble("price");
 				Integer quantity = resultSet.getInt("quantity");
@@ -144,6 +172,14 @@ public class MpsDaoImpl implements MpsDao {
 		
 		return list;
 	}
+	
+	/**
+	 * method      :  deleteRow 
+	 * argument    :  it's taking mobile ID as an argument
+	 * return type :  this method returns the row that deleted from the table 
+	 * Author      :  Capgemini 
+	 * Date        :  18-Jan-2019
+	 */
 
 	@Override
 	public int deleteRow(Integer id) throws MPSException {
@@ -170,6 +206,14 @@ public class MpsDaoImpl implements MpsDao {
 		}
 		return result;
 	}
+	
+	/**
+	 * method      :  mobileBetweenRange 
+	 * argument    :  it's taking minimum and maximum price as an arguments
+	 * return type :  this method returns the details of mobile between the given range 
+	 * Author      :  Capgemini 
+	 * Date        :  18-Jan-2019
+	 */
 
 	@Override
 	public List<Mobiles> mobileBetweenRange(Double startRange, Double endRange) throws MPSException {

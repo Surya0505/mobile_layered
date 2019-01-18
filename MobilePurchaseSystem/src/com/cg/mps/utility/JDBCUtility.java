@@ -33,8 +33,8 @@ public class JDBCUtility {
 
 			String driver = properties.getProperty("db.driver");
 			String url = properties.getProperty("db.url");
-			String username = properties.getProperty("db.name");
-			String password = properties.getProperty("db.pass");
+			String username = properties.getProperty("db.username");
+			String password = properties.getProperty("db.password");
 
 			Class.forName(driver);
 			connection = DriverManager.getConnection(url, username, password);

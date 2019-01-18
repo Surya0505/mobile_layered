@@ -28,7 +28,7 @@ public class MpsServiceImpl implements MpsService {
 
 		if (!checkName(details.getcName())) {
 
-			list.add("Maximum length Name is 20 and start with uppercase");
+			list.add("Maximum length of Name is 20 and start with uppercase");
 
 		}
 

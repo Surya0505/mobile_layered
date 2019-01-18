@@ -16,7 +16,7 @@ public class UIClass {
 		Scanner scanner = new Scanner(System.in);
 		MpsService service = new MpsServiceImpl();
 		List<Mobiles> list = new ArrayList<>();
-
+//		boolean flag = false;
 		int choice;
 		do {
 			System.out.println("===== Mobile Purchase System =====");
@@ -25,12 +25,15 @@ public class UIClass {
 			System.out.println("3. List of all Mobiles");
 			System.out.println("4. Delete Mobile based on Mobile Id");
 			System.out.println("5. View Mobiles based on Price Range");
+			System.out.println("6. Exit");
 
 			System.out.println("Enter your choice:");
 			choice = scanner.nextInt();
 
 			switch (choice) {
 			case 1:
+//				flag = true;
+		
 				System.out.println("Enter mobile id");
 				Integer mobileId = scanner.nextInt();
 				scanner.nextLine();
@@ -58,11 +61,12 @@ public class UIClass {
 				} else {
 					System.out.println("Quantity mustbe greater than zero");
 				}
-
+				
 				break;
 
 			case 2:
-
+//				flag = true;
+				scanner.nextLine();
 				System.out.println("Enter customer name:");
 				String cName = scanner.nextLine();
 				System.out.println("Enter mail id:");
@@ -82,60 +86,63 @@ public class UIClass {
 				System.out.println(validateFlag);
 				if (validateFlag) {
 					try {
-						int Quantity = service.updateMobileQuantity(details);
+						int update = service.updateMobileQuantity(details);
+						System.out.println(update + " row updated");
 					} catch (MPSException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println(e.getMessage());
 					}
 				}
 				break;
 
 			case 3:
-
+//				flag = true;
 				try {
 					list = service.selectAllMobiles();
-					System.out.println(
-							"Mobile Id" + "      " + "Mobile Name" + "     " + "Price" + "      " + "Quantity");
+					System.out.println("Mobile Id" + "      " + "Mobile Name"
+							+ "     " + "Price" + "      " + "Quantity");
 
 					for (Mobiles mobiles : list) {
-						System.out.println(mobiles.getMobileId() + "        " + mobiles.getName() + "       "
-								+ mobiles.getPrice() + "          " + mobiles.getQuantity());
+						System.out.println(mobiles.getMobileId() + "        "
+								+ mobiles.getName() + "       "
+								+ mobiles.getPrice() + "          "
+								+ mobiles.getQuantity());
 					}
 				} catch (MPSException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 
 				break;
 
 			case 4:
-
+//				flag = true;
 				System.out.println("Enter ID to be deleted:");
 				Integer id = scanner.nextInt();
 				try {
 					int result = service.deleteRow(id);
-					System.out.println(result + "deleted");
+					System.out.println(result + "  row deleted");
 				} catch (MPSException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 
 				break;
 
 			case 5:
-
+//				flag = true;
 				System.out.println("Enter the price range");
-				Double startRange, endRange;
+				Double startRange,
+				endRange;
 				startRange = scanner.nextDouble();
 				endRange = scanner.nextDouble();
 				try {
 					list = service.mobileBetweenRange(startRange, endRange);
-					System.out.println(
-							"Mobile Id" + "      " + "Mobile Name" + "     " + "Price" + "      " + "Quantity");
+					System.out.println("Mobile Id" + "      " + "Mobile Name"
+							+ "     " + "Price" + "      " + "Quantity");
 
 					for (Mobiles mobiles : list) {
-						System.out.println(mobiles.getMobileId() + "        " + mobiles.getName() + "       "
-								+ mobiles.getPrice() + "          " + mobiles.getQuantity());
+						System.out.println(mobiles.getMobileId() + "        "
+								+ mobiles.getName() + "       "
+								+ mobiles.getPrice() + "          "
+								+ mobiles.getQuantity());
 					}
 
 				} catch (MPSException e) {
@@ -143,13 +150,16 @@ public class UIClass {
 				}
 
 				break;
-
+			
+			case 6:
+				
+				return;
 			default:
 				System.out.println("Wrong Input  \nEnter again");
 				break;
 			}
 
-		} while (choice != 0);
+		} while (choice!=0);
 
 	}
 
